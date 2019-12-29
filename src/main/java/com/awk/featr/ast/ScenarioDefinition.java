@@ -1,5 +1,9 @@
 package com.awk.featr.ast;
 
+import java.util.List;
+
+import static java.util.Objects.requireNonNull;
+
 public abstract class ScenarioDefinition {
 
     private final String name;
@@ -8,10 +12,13 @@ public abstract class ScenarioDefinition {
 
     private String type;
 
-    ScenarioDefinition(String name, String description) {
+    private final List<Step> steps;
+
+    ScenarioDefinition(String name, String description, List<Step> steps) {
         this.name = name;
         this.description = description;
         this.type = this.getClass().getSimpleName();
+        this.steps = requireNonNull(steps);
     }
 
     public String getName() {
@@ -24,4 +31,5 @@ public abstract class ScenarioDefinition {
 
     public String getType() { return type; }
 
+    public List<Step> getSteps() { return steps; }
 }
