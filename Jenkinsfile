@@ -21,9 +21,9 @@ pipeline {
                     pom = readMavenPom file: "pom.xml";
 
                     def server_version = "curl -v http://server:9211/version".execute().text
-                    println ${pom.version}
+                    echo "*** Version: ${pom.version}";
 
-                    if ( !${pom.version}.contains('SNAPSHOT') ) {
+                    if ( !pom.version.contains('SNAPSHOT') ) {
                         return 1
                     }
                     println "The version is a SNAPSHOT version and cannot be pushed to Nexus by Jenkins."
