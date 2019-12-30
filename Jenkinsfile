@@ -11,14 +11,9 @@ pipeline {
         NEXUS_CREDENTIAL_ID = "jenkins"
     }
     stages {
-        stage('Build') {
+        stage('Build & unit test') {
             steps {
-                sh 'mvn clean compile'
-            }
-        }
-        stage('Unit test') {
-            steps {
-                sh 'mvn test'
+                sh 'mvn clean package'
             }
         }
         stage('Server test') {
