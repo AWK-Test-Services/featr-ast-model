@@ -7,7 +7,7 @@ pipeline {
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
         NEXUS_URL = "server:8081"
-        NEXUS_REPOSITORY = "repository/maven-snapshots"
+        NEXUS_REPOSITORY = "repository/maven-public"
         NEXUS_CREDENTIAL_ID = "jenkinsForNexus"
     }
     stages {
