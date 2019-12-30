@@ -3,13 +3,6 @@ pipeline {
     tools {
         maven 'maven_3.5.3'
     }
-    environment {
-        NEXUS_VERSION = "nexus3"
-        NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "server:8081"
-        NEXUS_REPOSITORY = "repository/maven-public"
-        NEXUS_CREDENTIAL_ID = "jenkinsForNexus"
-    }
     stages {
         stage('Build & unit test') {
             steps {
@@ -23,6 +16,28 @@ pipeline {
             }
         }
         stage("publish to nexus") {
+            when {
+                expression {
+                    pom = readMavenPom file: "pom.xml";
+
+                    def server_version = "curl -v http://server:9211/version".execute().text
+                    println ${pom.version}
+
+                    if ( !${pom.version}.contains('SNAPSHOT') ) {
+                        return 1
+                    }
+                    println "The version is a SNAPSHOT version and cannot be pushed to Nexus by Jenkins."
+                    // If you want to, you can publish this snapshot-version from a command-prompt with 'mvn deploy'
+                    return 0
+                }
+            }
+            environment {
+                NEXUS_VERSION = "nexus3"
+                NEXUS_PROTOCOL = "http"
+                NEXUS_URL = "server:8081"
+                NEXUS_REPOSITORY = "repository/maven-public"
+                NEXUS_CREDENTIAL_ID = "jenkinsForNexus"
+            }
             steps {
                 script {
                     pom = readMavenPom file: "pom.xml";
