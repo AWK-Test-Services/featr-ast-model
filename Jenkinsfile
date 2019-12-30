@@ -8,7 +8,7 @@ pipeline {
         NEXUS_PROTOCOL = "http"
         NEXUS_URL = "server:8081"
         NEXUS_REPOSITORY = "repository/maven-snapshots"
-        NEXUS_CREDENTIAL_ID = "jenkins"
+        NEXUS_CREDENTIAL_ID = "b2fd0d61-e554-4047-8276-942e295ca976"
     }
     stages {
         stage('Build & unit test') {
