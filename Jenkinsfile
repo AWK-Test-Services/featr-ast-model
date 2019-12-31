@@ -42,11 +42,15 @@ pipeline {
                 script {
                     pom = readMavenPom file: "pom.xml";
                     filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
+                    sourceFilesByGlob = findFiles(glob: "target/*-sources.${pom.packaging}");
                     echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
 
                     artifactPath = filesByGlob[0].path;
+                    sourcesPath = sourceFilesByGlob[0].path;
+
                     artifactExists = fileExists artifactPath;
-                    if(artifactExists) {
+                    sourcesExists = fileExists artifactPath;
+                    if(artifactExists && sourcesExists) {
                         echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
                         nexusArtifactUploader(
                             nexusVersion: NEXUS_VERSION,
@@ -65,7 +69,13 @@ pipeline {
                                 [artifactId: pom.artifactId,
                                 classifier: '',
                                 file: "pom.xml",
-                                type: "pom"]
+                                type: "pom"],
+
+                                [artifactId: pom.artifactId,
+                                classifier: 'sources',
+                                file: artifactPath,
+                                type: pom.packaging],
+
                             ]
                         );
                     } else {
