@@ -16,7 +16,7 @@ pipeline {
             }
         }
         stage("publish to nexus") {
-            when {
+/*            when {
                 expression {
                     pom = readMavenPom file: "pom.xml";
 
@@ -31,11 +31,12 @@ pipeline {
                     return 0
                 }
             }
+*/
             environment {
                 NEXUS_VERSION = "nexus3"
                 NEXUS_PROTOCOL = "http"
                 NEXUS_URL = "server:8081"
-                NEXUS_REPOSITORY = "repository/maven-public"
+                NEXUS_REPOSITORY = "maven-public"
                 NEXUS_CREDENTIAL_ID = "jenkinsForNexus"
             }
             steps {
