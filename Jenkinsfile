@@ -45,7 +45,13 @@ pipeline {
                     echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
                     echo "${filesByGlob[1].name} ${filesByGlob[1].path} ${filesByGlob[1].directory} ${filesByGlob[1].length} ${filesByGlob[1].lastModified}"
 
-                    echo "*** File: ${filesByGlob[0].path}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
+                    def artifactPath = ${filesByGlob[0].path};
+                    def sourcesPath  = ${filesByGlob[1].path};
+                    if ( artifactPath.contains("sources") ) {
+                        artifactPath = ${filesByGlob[1].path}
+                        sourcesPath  = ${filesByGlob[0].path}
+                    }
+                    echo "*** File: ${artifact}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
                     nexusArtifactUploader(
                         nexusVersion: NEXUS_VERSION,
                         protocol: NEXUS_PROTOCOL,
@@ -57,7 +63,7 @@ pipeline {
                         artifacts: [
                             [artifactId: pom.artifactId,
                             classifier: '',
-                            file: filesByGlob[0].path,
+                            file: artifactPath,
                             type: pom.packaging],
 
                             [artifactId: pom.artifactId,
@@ -67,7 +73,7 @@ pipeline {
 
                             [artifactId: pom.artifactId,
                             classifier: 'sources',
-                            file: filesByGlob[1].path,
+                            file: sourcesPath,
                             type: pom.packaging],
                         ]
                     );
