@@ -51,7 +51,7 @@ pipeline {
                         artifactPath = filesByGlob[1].path
                         sourcesPath  = filesByGlob[0].path
                     }
-                    echo "*** File: ${artifact}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
+                    echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
                     nexusArtifactUploader(
                         nexusVersion: NEXUS_VERSION,
                         protocol: NEXUS_PROTOCOL,
