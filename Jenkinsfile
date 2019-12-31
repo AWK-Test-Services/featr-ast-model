@@ -42,14 +42,14 @@ pipeline {
                 script {
                     pom = readMavenPom file: "pom.xml";
                     filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
-                    echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
-                    echo "${filesByGlob[1].name} ${filesByGlob[1].path} ${filesByGlob[1].directory} ${filesByGlob[1].length} ${filesByGlob[1].lastModified}"
+                    echo "0: ${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
+                    echo "1: ${filesByGlob[1].name} ${filesByGlob[1].path} ${filesByGlob[1].directory} ${filesByGlob[1].length} ${filesByGlob[1].lastModified}"
 
-                    def artifactPath = ${filesByGlob[0].path};
-                    def sourcesPath  = ${filesByGlob[1].path};
+                    def artifactPath = filesByGlob[0].path;
+                    def sourcesPath  = filesByGlob[1].path;
                     if ( artifactPath.contains("sources") ) {
-                        artifactPath = ${filesByGlob[1].path}
-                        sourcesPath  = ${filesByGlob[0].path}
+                        artifactPath = filesByGlob[1].path
+                        sourcesPath  = filesByGlob[0].path
                     }
                     echo "*** File: ${artifact}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
                     nexusArtifactUploader(
