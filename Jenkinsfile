@@ -19,8 +19,6 @@ pipeline {
             when {
                 expression {
                     pom = readMavenPom file: "pom.xml";
-
-                    def server_version = "curl -v http://server:9211/version".execute().text
                     echo "*** Version: ${pom.version}";
 
                     if ( !pom.version.contains('SNAPSHOT') ) {
