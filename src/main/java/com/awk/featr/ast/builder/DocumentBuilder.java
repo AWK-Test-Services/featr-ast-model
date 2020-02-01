@@ -2,6 +2,11 @@ package com.awk.featr.ast.builder;
 
 import com.awk.featr.ast.Document;
 import com.awk.featr.ast.Feature;
+import com.awk.featr.ast.GenericGherkinError;
+import com.awk.featr.ast.GherkinError;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
@@ -12,14 +17,14 @@ public class DocumentBuilder {
     private Feature feature;
     private String language;
     private String comment;
-    private Exception error;
+    private List<GherkinError> errors;
 
-    public DocumentBuilder(String id, Feature feature, String language) {
+    public DocumentBuilder(String language) {
         this.id = UUID.randomUUID().toString();
-        this.feature = requireNonNull(feature);
+        this.feature = new FeatureBuilder("No Feature").build();
         this.language = language;
         this.comment = "";
-        this.error = null;
+        this.errors = new ArrayList<>();
     }
 
     public DocumentBuilder withId(String id) {
@@ -42,12 +47,21 @@ public class DocumentBuilder {
         return this;
     }
 
-    public DocumentBuilder withError(Exception error) {
-        this.error = requireNonNull(error);
+    public DocumentBuilder addError(GherkinError error) {
+        this.errors.add(error);
+        return this;
+    }
+
+    public DocumentBuilder addException(Exception exception) {
+        this.errors.add(new GenericGherkinError(exception.getMessage()));
         return this;
     }
 
     public Document build() {
-        return new Document(id, feature, language, comment, error);
+        if ( feature == null ) {
+            feature = new FeatureBuilder("No Feature").build();
+            errors.add(new GenericGherkinError("No Feature found in this file."));
+        }
+        return new Document(id, feature, language, comment, errors);
     }
 }

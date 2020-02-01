@@ -1,5 +1,7 @@
 package com.awk.featr.ast;
 
+import java.util.List;
+
 import static java.util.Objects.requireNonNull;
 
 public class Document {
@@ -7,14 +9,14 @@ public class Document {
     private final Feature feature;
     private final String language;
     private final String comment;
-    private final Exception error;
+    private final List<GherkinError> errors;
 
-    public Document(String id, Feature feature, String language, String comment, Exception error) {
+    public Document(String id, Feature feature, String language, String comment, List<GherkinError> errors) {
         this.id = requireNonNull(id);
         this.feature = requireNonNull(feature);
         this.language = requireNonNull(language);
         this.comment = comment;
-        this.error = error;
+        this.errors = errors;
     }
 
     public String getId() {
@@ -33,5 +35,5 @@ public class Document {
         return comment;
     }
 
-    public Exception getError() { return error; }
+    public List<GherkinError> getErrors() { return errors; }
 }
