@@ -21,7 +21,7 @@ public class DocumentBuilder {
 
     public DocumentBuilder(String language) {
         this.id = UUID.randomUUID().toString();
-        this.feature = new FeatureBuilder("No Feature").build();
+        this.feature = null;
         this.language = language;
         this.comment = "";
         this.errors = new ArrayList<>();
