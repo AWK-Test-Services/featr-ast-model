@@ -9,13 +9,15 @@ public class Document {
     private final Feature feature;
     private final String language;
     private final String comment;
+    private final List<Image> usedImages;
     private final List<GherkinError> errors;
 
-    public Document(String id, Feature feature, String language, String comment, List<GherkinError> errors) {
+    public Document(String id, Feature feature, String language, String comment, List<Image> usedImages, List<GherkinError> errors) {
         this.id = requireNonNull(id);
         this.feature = requireNonNull(feature);
         this.language = requireNonNull(language);
         this.comment = comment;
+        this.usedImages = usedImages;
         this.errors = errors;
     }
 
@@ -33,6 +35,10 @@ public class Document {
 
     public String getComment() {
         return comment;
+    }
+
+    public List<Image> getUsedImages() {
+        return usedImages;
     }
 
     public List<GherkinError> getErrors() { return errors; }

@@ -1,9 +1,6 @@
 package com.awk.featr.ast.builder;
 
-import com.awk.featr.ast.Document;
-import com.awk.featr.ast.Feature;
-import com.awk.featr.ast.GenericGherkinError;
-import com.awk.featr.ast.GherkinError;
+import com.awk.featr.ast.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +14,7 @@ public class DocumentBuilder {
     private Feature feature;
     private String language;
     private String comment;
+    private List<Image> usedImages;
     private List<GherkinError> errors;
 
     public DocumentBuilder(String language) {
@@ -24,6 +22,7 @@ public class DocumentBuilder {
         this.feature = null;
         this.language = language;
         this.comment = "";
+        this.usedImages = new ArrayList<>();
         this.errors = new ArrayList<>();
     }
 
@@ -47,6 +46,16 @@ public class DocumentBuilder {
         return this;
     }
 
+    public DocumentBuilder withUsedImages(List<Image> usedImages) {
+        this.usedImages = usedImages;
+        return this;
+    }
+
+    public DocumentBuilder addUsedImage(Image usedImage) {
+        this.usedImages.add(usedImage);
+        return this;
+    }
+
     public DocumentBuilder addError(GherkinError error) {
         this.errors.add(error);
         return this;
@@ -62,6 +71,6 @@ public class DocumentBuilder {
             feature = new FeatureBuilder("No Feature").build();
             errors.add(new GenericGherkinError("No Feature found in this file."));
         }
-        return new Document(id, feature, language, comment, errors);
+        return new Document(id, feature, language, comment, usedImages, errors);
     }
 }
