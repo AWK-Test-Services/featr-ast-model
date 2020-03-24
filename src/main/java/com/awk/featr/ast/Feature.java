@@ -7,6 +7,9 @@ import static java.util.Objects.requireNonNull;
 public class Feature {
 
     private final String id;
+    private final String featureId;
+
+    private final String parentId;
 
     private final String name;
     private final String description;
@@ -18,8 +21,10 @@ public class Feature {
 
     private final String rule;
 
-    public Feature(String id, String name, String description, List<String> tags, Background background, List<ScenarioDefinition> scenarioDefinitions, String rule) {
+    public Feature(String id, String featureId, String parentId, String name, String description, List<String> tags, Background background, List<ScenarioDefinition> scenarioDefinitions, String rule) {
         this.id = requireNonNull(id);
+        this.featureId = requireNonNull(featureId);
+        this.parentId  =requireNonNull(parentId);
         this.name = requireNonNull(name);
         this.description = requireNonNull(description);
         this.tags = tags;
@@ -30,6 +35,14 @@ public class Feature {
 
     public String getId() {
         return id;
+    }
+
+    public String getFeatureId() {
+        return featureId;
+    }
+
+    public String getParentId() {
+        return parentId;
     }
 
     public String getName() {

@@ -13,6 +13,8 @@ import static java.util.Objects.requireNonNull;
 public class FeatureBuilder {
 
     private String id;
+    private String featureId;
+    private String parentId;
     private String name;
     private String description;
     private List<String> tags;
@@ -31,6 +33,16 @@ public class FeatureBuilder {
 
     public FeatureBuilder withId(String id) {
         this.id = requireNonNull(id);
+        return this;
+    }
+
+    public FeatureBuilder withFeatureId(String featureId) {
+        this.featureId = requireNonNull(featureId);
+        return this;
+    }
+
+    public FeatureBuilder withParentId(String parentId) {
+        this.parentId = requireNonNull(parentId);
         return this;
     }
 
@@ -59,8 +71,7 @@ public class FeatureBuilder {
         return this;
     }
 
-
     public Feature build() {
-        return new Feature(id, name, description, tags, background, scenarioDefinitions, rule);
+        return new Feature(id, featureId, parentId, name, description, tags, background, scenarioDefinitions, rule);
     }
 }
