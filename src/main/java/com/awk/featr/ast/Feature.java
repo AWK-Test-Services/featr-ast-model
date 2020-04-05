@@ -23,8 +23,8 @@ public class Feature {
 
     public Feature(String id, String featureId, String parentId, String name, String description, List<String> tags, Background background, List<ScenarioDefinition> scenarioDefinitions, String rule) {
         this.id = requireNonNull(id);
-        this.featureId = requireNonNull(featureId);
-        this.parentId  =requireNonNull(parentId);
+        this.featureId = featureId;
+        this.parentId = parentId;
         this.name = requireNonNull(name);
         this.description = requireNonNull(description);
         this.tags = tags;
